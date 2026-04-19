@@ -125,7 +125,7 @@ def get_m3u8_url(url):
 
 # ---------- CHANNEL LIST ----------
 def get_channels():
-    url = f"https://api.cdnlivetv.ru/api/v1/channels/?user={API_USER}&plan=free"
+    url = f"https://api.cdnlivetv.ru/api/v1/channels/?user={API_USER}&plan=vip"
 
     r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
     data = r.json().get("channels", [])
