@@ -7,7 +7,7 @@ from datetime import datetime, timezone, timedelta
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # ---------- CONFIG ----------
-USER = os.getenv("API_USER")
+API_USER = os.getenv("API_USER")
 REFERER = "https://edge.cdnlivetv.ru/"
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -125,7 +125,7 @@ def get_m3u8_url(url):
 
 # ---------- CHANNEL LIST ----------
 def get_channels():
-    url = f"https://api.cdnlivetv.ru/api/v1/channels/?user={USER}&plan=vip"
+    url = f"https://api.cdnlivetv.ru/api/v1/channels/?user={API_USER}&plan=free"
 
     r = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
     data = r.json().get("channels", [])
