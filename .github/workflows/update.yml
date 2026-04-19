@@ -1,46 +1,40 @@
-name: Update IPTV Playlist
+name: Update Playlist
 
 on:
   schedule:
-    - cron: "*/40 * * * *"   # প্রতি 20 মিনিটে run (token expiry handle)
+    - cron: "*/40 * * * *"
   workflow_dispatch:
 
 jobs:
-  update-playlist:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Repo clone
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      # 2. Python setup
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      # 3. Dependencies install
-      - name: Install dependencies
-        run: |
-          pip install requests
+      - name: Install deps
+        run: pip install requests
 
-      # 4. Run script (SECRET inject)
-      - name: Run scraper
+      - name: Run script
         env:
           API_USER: ${{ secrets.API_USER }}
-        run: |
-          python main.py
+        run: python main.py
 
-      # 5. Commit changes (only if changed)
-      - name: Commit changes
+      - name: Debug files
+        run: ls -la
+
+      - name: Commit & Push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add playlist.m3u
-          git diff --cached --quiet || git commit -m "Auto update playlist"
 
-      # 6. Push
-      - name: Push changes
-        run: |
+          git add playlist.m3u
+
+          git diff --cached --quiet || git commit -m "Auto update playlist"
           git push
